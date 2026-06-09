@@ -38,9 +38,24 @@ public class TaskItem
 
     }
 
+    public void PrintDetails()
+    {
+        Console.WriteLine("=== TASK DETAILS ===");
+
+        Console.WriteLine("ID: " + Id);
+
+        Console.WriteLine("Title: " + Title);
+
+        Console.WriteLine("Description: " + Description);
+
+        Console.WriteLine("Completed: " + Completed);
+
+        Console.WriteLine("Created: " + CreatedAt);
+
+        Console.WriteLine("Completed At: " + CompletedAt);
+    }
 
     public override string ToString()
-
     {
 
         return $"[{Id}] {Title} - {(Completed ? "DONE" : "PENDING")} - Created: {CreatedAt}";

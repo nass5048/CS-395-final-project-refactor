@@ -6,7 +6,6 @@ public class Program
 {
 
     static void Main(string[] args)
-
     {
 
         User u = new User("Mike", "mike@example.com");

@@ -16,7 +16,6 @@ public class User
     public TaskManager Manager;
 
     public User(string username, string email)
-
     {
 
         Username = username;
@@ -28,7 +27,6 @@ public class User
     }
 
     public void AddTask(string title, string desc)
-
     {
 
         Manager.AddNewTask(title, desc);
@@ -36,15 +34,14 @@ public class User
     }
 
     public void CompleteTask(int id)
-
     {
 
         Manager.MarkTaskAsDone(id);
 
     }
 
-    public void PrintTasks()
 
+    public void PrintTasks()
     {
 
         Console.WriteLine("=== TASKS FOR USER: " + Username + " ===");

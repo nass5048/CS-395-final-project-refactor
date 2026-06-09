@@ -14,8 +14,24 @@ public class TaskManager
 
     private int nextId = 1;
 
-    public void AddNewTask(string title, string description)
+    public int GetTaskIndex(int id)
+    {
+        int index = -1;
 
+        for (int i = 0; i < tasks.Count; i++)
+        {
+
+            if (tasks[i].Id == id)
+            {
+                index = i;
+                return index;
+            }
+        }
+
+        return index;
+    }
+
+    public void AddNewTask(string title, string description)
     {
 
         if (title == null || title == "")
@@ -47,7 +63,6 @@ public class TaskManager
     }
 
     public void MarkTaskAsDone(int id)
-
     {
 
         bool found = false;
@@ -83,7 +98,6 @@ public class TaskManager
     }
 
     public void PrintAllTasks()
-
     {
 
         Console.WriteLine("=== ALL TASKS ===");
@@ -99,7 +113,6 @@ public class TaskManager
     }
 
     public void PrintCompleted()
-
     {
 
         Console.WriteLine("=== COMPLETED TASKS ===");
@@ -121,13 +134,11 @@ public class TaskManager
     }
 
     public void PrintPending()
-
     {
 
         Console.WriteLine("=== PENDING TASKS ===");
 
         foreach (var t in tasks)
-
         {
 
             if (!t.Completed)
@@ -143,33 +154,15 @@ public class TaskManager
     }
 
     public void RemoveTask(int id)
-
     {
-
-        bool removed = false;
-
-        for (int i = 0; i < tasks.Count; i++)
-
+        int index = GetTaskIndex(id);
+        if (index != -1)
         {
+            Console.WriteLine("Removing task: " + tasks[index]);
 
-            if (tasks[i].Id == id)
-
-            {
-
-                Console.WriteLine("Removing task: " + tasks[i]);
-
-                tasks.RemoveAt(i);
-
-                removed = true;
-
-                break;
-
-            }
-
+            tasks.RemoveAt(index);
         }
-
-        if (!removed)
-
+        else
         {
 
             Console.WriteLine("Task not found");
@@ -179,45 +172,24 @@ public class TaskManager
     }
 
     public void EditTask(int id, string newTitle, string newDesc)
-
     {
+        int index = GetTaskIndex(id);
 
-        bool found = false;
-
-        foreach (var t in tasks)
-
+        if (index != -1)
         {
-
-            if (t.Id == id)
-
+            if (newTitle != null && newTitle != "")
             {
-
-                if (newTitle != null && newTitle != "")
-
-                {
-
-                    t.Title = newTitle;
-
-                }
-
-                if (newDesc != null)
-
-                {
-
-                    t.Description = newDesc;
-
-                }
-
-                Console.WriteLine("Edited task: " + id);
-
-                found = true;
-
+                tasks[index].Title = newTitle;
             }
 
-        }
+            if (newDesc != null)
+            {
+                tasks[index].Description = newDesc;
+            }
 
-        if (!found)
-
+            Console.WriteLine("Edited task: " + id);
+        } 
+        else
         {
 
             Console.WriteLine("Task not found");
@@ -227,35 +199,13 @@ public class TaskManager
     }
 
     public void PrintTaskDetails(int id)
-
     {
+        int index = GetTaskIndex(id);
 
-        foreach (var t in tasks)
-
+        if (index != -1)
         {
-
-            if (t.Id == id)
-
-            {
-
-                Console.WriteLine("=== TASK DETAILS ===");
-
-                Console.WriteLine("ID: " + t.Id);
-
-                Console.WriteLine("Title: " + t.Title);
-
-                Console.WriteLine("Description: " + t.Description);
-
-                Console.WriteLine("Completed: " + t.Completed);
-
-                Console.WriteLine("Created: " + t.CreatedAt);
-
-                Console.WriteLine("Completed At: " + t.CompletedAt);
-
-                return;
-
-            }
-
+            tasks[index].PrintDetails();
+            return;
         }
 
         Console.WriteLine("Task not found");
@@ -263,7 +213,6 @@ public class TaskManager
     }
 
     public void SearchTasks(string keyword)
-
     {
 
         Console.WriteLine("=== SEARCH RESULTS ===");
@@ -272,7 +221,7 @@ public class TaskManager
 
         {
 
-            if (t.Title.Contains(keyword) || t.Description.Contains(keyword))
+            if (t.Title.ToLower().Contains(keyword.ToLower()) || t.Description.ToLower().Contains(keyword.ToLower()))
 
             {
 
@@ -285,7 +234,6 @@ public class TaskManager
     }
 
     public void SortTasksByDate()
-
     {
 
         tasks = tasks.OrderBy(t => t.CreatedAt).ToList();
@@ -295,7 +243,6 @@ public class TaskManager
     }
 
     public void SortTasksByTitle()
-
     {
 
         tasks = tasks.OrderBy(t => t.Title).ToList();
@@ -305,7 +252,6 @@ public class TaskManager
     }
 
     public void ClearAllTasks()
-
     {
 
         Console.WriteLine("Clearing all tasks...");
@@ -317,7 +263,6 @@ public class TaskManager
     }
 
     public void PrintStats()
-
     {
 
         int total = tasks.Count;
