@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,30 +67,15 @@ public class TaskManager
     public void MarkTaskAsDone(int id)
     {
 
-        bool found = false;
+        int index = GetTaskIndex(id);
 
-        for (int i = 0; i < tasks.Count; i++)
-
+        if (index != -1)
         {
+            tasks[index].MarkAsCompleted();
 
-            if (tasks[i].Id == id)
-
-            {
-
-                tasks[i].Completed = true;
-
-                tasks[i].CompletedAt = DateTime.Now;
-
-                Console.WriteLine("Completed task: " + tasks[i].Title);
-
-                found = true;
-
-            }
-
+            Console.WriteLine("Completed task: " + tasks[index].Title);
         }
-
-        if (!found)
-
+        else
         {
 
             Console.WriteLine("Task not found");
@@ -97,18 +84,25 @@ public class TaskManager
 
     }
 
+    public void PrintTasks(Func<TaskItem, bool>? action = null)
+    {
+        foreach (var t in tasks)
+
+        {
+            if (action == null || action(t))
+            {
+                Console.WriteLine(t.ToString());
+            }
+
+        }
+    }
+
     public void PrintAllTasks()
     {
 
         Console.WriteLine("=== ALL TASKS ===");
 
-        foreach (var t in tasks)
-
-        {
-
-            Console.WriteLine(t.ToString());
-
-        }
+        PrintTasks();
 
     }
 
@@ -117,19 +111,7 @@ public class TaskManager
 
         Console.WriteLine("=== COMPLETED TASKS ===");
 
-        foreach (var t in tasks)
-
-        {
-
-            if (t.Completed)
-
-            {
-
-                Console.WriteLine(t.ToString());
-
-            }
-
-        }
+        PrintTasks(t => t.Completed);
 
     }
 
@@ -138,18 +120,7 @@ public class TaskManager
 
         Console.WriteLine("=== PENDING TASKS ===");
 
-        foreach (var t in tasks)
-        {
-
-            if (!t.Completed)
-
-            {
-
-                Console.WriteLine(t.ToString());
-
-            }
-
-        }
+        PrintTasks(t => !t.Completed);
 
     }
 

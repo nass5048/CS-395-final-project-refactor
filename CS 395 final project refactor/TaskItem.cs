@@ -38,6 +38,12 @@ public class TaskItem
 
     }
 
+    public void MarkAsCompleted()
+    {
+        Completed = true;
+        CompletedAt = DateTime.Now;
+    }
+
     public void PrintDetails()
     {
         Console.WriteLine("=== TASK DETAILS ===");
